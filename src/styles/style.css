@@ -4,25 +4,95 @@
   box-sizing: border-box;
 }
 
+:root {
+  --background-color: #f9fafb;
+  --text-color: #1f2937;
+  --header-background: #ffffff;
+  --note-background: #ffffff;
+  --note-border: #e5e7eb;
+  --button-background: #3b82f6; /* Blue from existing style */
+  --button-text-color: #ffffff;
+  --input-background: #f9fafb; /* Very light gray from existing style */
+  --input-border: #d1d5db;
+  --input-focus-border: #3b82f6; /* Blue from existing style */
+  --shadow-color: rgba(0, 0, 0, 0.05);
+  --hover-background: #d1d5db; /* Medium gray from existing style */
+  --delete-button-background: #ef4444;
+  --archive-button-background: #e5e7eb; /* Light gray from existing style */
+  --archive-button-text-color: #1f2937;
+  --archive-button-border: #d1d5db;
+  --archive-button-hover-background: #d1d5db;
+  --archive-button-hover-border: #9ca3af;
+}
+
+[data-theme='dark'] {
+  --background-color: #111827; /* Dark blue/gray */
+  --text-color: #f3f4f6; /* Light gray for text */
+  --header-background: #1f2937; /* Darker blue/gray for header */
+  --note-background: #1f2937; /* Darker blue/gray for notes */
+  --note-border: #374151; /* Medium dark gray for borders */
+  --button-background: #4f46e5; /* Indigo for dark mode buttons */
+  --button-text-color: #ffffff;
+  --input-background: #374151; /* Medium dark gray for inputs */
+  --input-border: #4b5563; /* Dark gray for input borders */
+  --input-focus-border: #6366f1; /* Lighter Indigo for focus */
+  --shadow-color: rgba(255, 255, 255, 0.03); /* Subtle white shadow */
+  --hover-background: #374151; /* Medium dark gray for hover */
+  --delete-button-background: #dc2626; /* Darker red */
+  --archive-button-background: #4b5563; /* Dark gray for archive button */
+  --archive-button-text-color: #f3f4f6;
+  --archive-button-border: #6b7280;
+  --archive-button-hover-background: #6b7280;
+  --archive-button-hover-border: #9ca3af;
+}
+
 body {
   font-family: 'Inter', sans-serif;
-  background-color: #f9fafb; /* Slightly lighter gray */
-  color: #1f2937; /* Darker gray for better contrast */
+  background-color: var(--background-color);
+  color: var(--text-color);
   line-height: 1.6;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .note-app__header {
-  padding: 24px 0; /* Reduced padding */
-  text-align: center;
-  border-bottom: 1px solid #e5e7eb; /* Light gray border */
-  margin-bottom: 32px; /* Reduced margin */
-  background-color: #ffffff; /* White background for header */
+  display: flex; /* Added for toggle button alignment */
+  align-items: center; /* Added for toggle button alignment */
+  justify-content: space-between; /* Added for toggle button alignment */
+  padding: 16px 24px; /* Adjusted padding */
+  border-bottom: 1px solid var(--note-border);
+  margin-bottom: 32px;
+  background-color: var(--header-background);
+  position: sticky; /* Added for sticky header */
+  top: 0; /* Added for sticky header */
+  z-index: 10; /* Added for sticky header */
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .note-app__header h1 {
-  font-weight: 700; /* Bolder */
-  font-size: 2rem; /* Slightly smaller */
-  color: #111827; /* Very dark gray / black */
+  font-weight: 700;
+  font-size: 1.75rem; /* Adjusted size */
+  color: var(--text-color);
+  transition: color 0.3s ease;
+}
+
+.theme-toggle-button {
+  background-color: var(--button-background);
+  color: var(--button-text-color);
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background-color 0.2s ease, transform 0.1s ease, color 0.3s ease;
+}
+
+.theme-toggle-button:hover {
+  opacity: 0.9;
+}
+
+.theme-toggle-button:active {
+  transform: scale(0.98);
 }
 
 .note-app__body {
@@ -32,46 +102,51 @@ body {
 }
 
 .note-input {
-  background-color: #ffffff;
-  padding: 20px; /* Reduced padding */
+  background-color: var(--note-background);
+  padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Softer shadow */
-  margin-bottom: 32px; /* Reduced margin */
+  box-shadow: 0 4px 12px var(--shadow-color);
+  margin-bottom: 32px;
+  border: 1px solid var(--note-border); /* Added border */
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
 .note-input h2 {
-  font-size: 1.25rem; /* Slightly smaller */
+  font-size: 1.25rem;
   font-weight: 600;
   margin-bottom: 12px;
-  color: #374151;
+  color: var(--text-color);
+  transition: color 0.3s ease;
 }
 
 .note-input__title__char-limit {
-  font-size: 0.8rem; /* Slightly smaller */
-  color: #6b7280; /* Medium gray */
-  margin-bottom: 6px; /* Reduced margin */
+  font-size: 0.8rem;
+  color: var(--text-color);
+  opacity: 0.7;
+  margin-bottom: 6px;
   text-align: right;
+  transition: color 0.3s ease;
 }
 
 .note-input input[type="text"],
 .note-input textarea {
   width: 100%;
-  padding: 10px; /* Reduced padding */
+  padding: 10px;
   margin-bottom: 12px;
   font-family: 'Inter', sans-serif;
-  font-size: 0.9rem; /* Slightly smaller */
-  border: 1px solid #d1d5db; /* Light gray border */
+  font-size: 0.9rem;
+  border: 1px solid var(--input-border);
   border-radius: 6px;
-  background-color: #f9fafb; /* Very light gray background for inputs */
-  color: #1f2937;
-  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  background-color: var(--input-background);
+  color: var(--text-color);
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background-color 0.3s ease, color 0.3s ease;
 }
 
 .note-input input[type="text"]:focus,
 .note-input textarea:focus {
   outline: none;
-  border-color: #3b82f6; /* Blue border on focus */
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); /* Blue glow on focus */
+  border-color: var(--input-focus-border);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); /* Kept existing focus shadow for consistency */
 }
 
 .note-input textarea {
@@ -81,27 +156,29 @@ body {
 
 .note-input button[type="submit"] {
   width: 100%;
-  padding: 10px 16px; /* Reduced padding */
+  padding: 10px 16px;
   font-family: 'Inter', sans-serif;
-  font-size: 0.9rem; /* Slightly smaller */
+  font-size: 0.9rem;
   font-weight: 500;
-  color: #ffffff;
-  background-color: #3b82f6; /* Blue */
+  color: var(--button-text-color);
+  background-color: var(--button-background);
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
+  transition: background-color 0.2s ease-in-out, color 0.3s ease;
 }
 
 .note-input button[type="submit"]:hover {
-  background-color: #2563eb; /* Darker blue on hover */
+  opacity: 0.9;
 }
 
 .notes-list__empty-message {
   text-align: center;
-  font-size: 1rem; /* Slightly smaller */
-  color: #6b7280;
-  padding: 32px 0; /* Reduced padding */
+  font-size: 1rem;
+  color: var(--text-color);
+  opacity: 0.7;
+  padding: 32px 0;
+  transition: color 0.3s ease;
 }
 
 .notes-list {
@@ -111,42 +188,47 @@ body {
 }
 
 .note-item {
-  background-color: #ffffff;
-  border: 1px solid #e5e7eb;
+  background-color: var(--note-background);
+  border: 1px solid var(--note-border);
   border-radius: 8px;
-  padding: 16px; /* Reduced padding */
+  padding: 16px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Pushes button to bottom */
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  justify-content: space-between;
+  box-shadow: 0 2px 8px var(--shadow-color);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .note-item:hover {
-  transform: translateY(-3px); /* Slightly less transform */
-  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.07); /* Adjusted shadow */
+  transform: translateY(-3px);
+  box-shadow: 0 5px 14px var(--shadow-color);
+  border-color: var(--input-focus-border); /* Use focus border color for hover */
 }
 
 .note-item__title {
-  font-size: 1.125rem; /* Slightly smaller */
+  font-size: 1.125rem;
   font-weight: 600;
-  color: #1f2937;
-  margin-bottom: 6px; /* Reduced margin */
-  word-break: break-word; /* Prevent overflow */
+  color: var(--text-color);
+  margin-bottom: 6px;
+  word-break: break-word;
+  transition: color 0.3s ease;
 }
 
 .note-item__date {
-  font-size: 0.8rem; /* Slightly smaller */
-  color: #6b7280;
-  margin-bottom: 10px; /* Reduced margin */
+  font-size: 0.8rem;
+  color: var(--text-color);
+  opacity: 0.7;
+  margin-bottom: 10px;
+  transition: color 0.3s ease;
 }
 
 .note-item__body {
-  font-size: 0.9rem; /* Slightly smaller */
-  color: #374151;
+  font-size: 0.9rem;
+  color: var(--text-color);
   margin-bottom: 12px;
   line-height: 1.5;
-  word-break: break-word; /* Prevent overflow */
+  word-break: break-word;
+  transition: color 0.3s ease;
 }
 
 .note-item__action {
@@ -157,20 +239,20 @@ body {
 }
 
 .note-item__delete-button {
-  padding: 7px 14px; /* Reduced padding */
+  padding: 7px 14px;
   font-family: 'Inter', sans-serif;
-  font-size: 0.8rem; /* Slightly smaller */
+  font-size: 0.8rem;
   font-weight: 500;
-  color: #ffffff;
-  background-color: #ef4444; /* Red */
+  color: var(--button-text-color);
+  background-color: var(--delete-button-background);
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
+  transition: background-color 0.2s ease-in-out, color 0.3s ease;
 }
 
 .note-item__delete-button:hover {
-  background-color: #dc2626; /* Darker red on hover */
+  opacity: 0.9;
 }
 
 /* Optional: Search Bar Styling */
@@ -182,40 +264,42 @@ body {
 
 .note-search input[type="text"] {
   width: 100%;
-  max-width: 360px; /* Adjusted max-width */
-  padding: 10px 14px; /* Reduced padding */
+  max-width: 360px;
+  padding: 10px 14px;
   font-family: 'Inter', sans-serif;
-  font-size: 0.9rem; /* Slightly smaller */
-  border: 1px solid #d1d5db;
+  font-size: 0.9rem;
+  border: 1px solid var(--input-border);
   border-radius: 6px;
-  background-color: #ffffff;
-  color: #1f2937;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+  background-color: var(--input-background);
+  color: var(--text-color);
+  box-shadow: 0 2px 4px var(--shadow-color);
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background-color 0.3s ease, color 0.3s ease;
 }
 
 .note-search input[type="text"]:focus {
   outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+  border-color: var(--input-focus-border);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); /* Kept existing focus shadow for consistency */
 }
 
 /* Archive Button Styling (example) */
 .note-item__archive-button {
-  padding: 7px 14px; /* Reduced padding */
+  padding: 7px 14px;
   font-family: 'Inter', sans-serif;
-  font-size: 0.8rem; /* Slightly smaller */
+  font-size: 0.8rem;
   font-weight: 500;
-  color: #1f2937;
-  background-color: #e5e7eb; /* Light gray */
-  border: 1px solid #d1d5db;
+  color: var(--archive-button-text-color);
+  background-color: var(--archive-button-background);
+  border: 1px solid var(--archive-button-border);
   border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.3s ease;
 }
 
 .note-item__archive-button:hover {
-  background-color: #d1d5db; /* Medium gray on hover */
-  border-color: #9ca3af;
+  background-color: var(--archive-button-hover-background);
+  border-color: var(--archive-button-hover-border);
+  opacity: 0.9;
 }
 
 /* Responsive adjustments */

@@ -9,12 +9,14 @@ class NoteApp extends React.Component {
     this.state = {
       notes: getInitialData(),
       searchQuery: '',
+      theme: localStorage.getItem('theme') || 'light',
     };
 
     this.onDeleteHandler = this.onDeleteHandler.bind(this);
     this.onAddNoteHandler = this.onAddNoteHandler.bind(this);
     this.onSearchChangeHandler = this.onSearchChangeHandler.bind(this);
     this.onArchiveHandler = this.onArchiveHandler.bind(this);
+    this.toggleTheme = this.toggleTheme.bind(this);
   }
 
   onDeleteHandler(id) {
@@ -51,11 +53,31 @@ class NoteApp extends React.Component {
     }));
   }
 
+  componentDidMount() {
+    document.documentElement.setAttribute('data-theme', this.state.theme);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.theme !== this.state.theme) {
+      document.documentElement.setAttribute('data-theme', this.state.theme);
+      localStorage.setItem('theme', this.state.theme);
+    }
+  }
+
+  toggleTheme() {
+    this.setState(prevState => ({
+      theme: prevState.theme === 'light' ? 'dark' : 'light',
+    }));
+  }
+
   render() {
     return (
       <div className="note-app">
         <div className="note-app__header">
           <h1>Aplikasi Catatan Pribadi</h1>
+          <button onClick={this.toggleTheme} className="theme-toggle-button">
+            {this.state.theme === 'light' ? ' 🌙 ' : ' ☀️ '}
+          </button>
         </div>
         <div className="note-app__body">
           <div className="note-search">
