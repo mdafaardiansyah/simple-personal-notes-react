@@ -2,6 +2,8 @@ import React from 'react';
 import { getInitialData } from '../utils';
 import NoteInput from './NoteInput';
 import NoteList from './NoteList';
+import ThemeToggleButton from './ThemeToggleButton';
+import SearchInput from './SearchInput';
 
 class NoteApp extends React.Component {
   constructor(props) {
@@ -75,16 +77,12 @@ class NoteApp extends React.Component {
       <div className="note-app">
         <div className="note-app__header">
           <h1>Aplikasi Catatan Pribadi</h1>
-          <button onClick={this.toggleTheme} className="theme-toggle-button">
-            {this.state.theme === 'light' ? ' 🌙 ' : ' ☀️ '}
-          </button>
+          <ThemeToggleButton theme={this.state.theme} toggleTheme={this.toggleTheme} />
         </div>
         <div className="note-app__body">
-          <div className="note-search">
-            <input type="text" placeholder="Cari catatan ..." value={this.state.searchQuery} onChange={this.onSearchChangeHandler} />
-          </div>
           <NoteInput addNote={this.onAddNoteHandler} />
-          <h2>Daftar Catatan</h2>
+          <SearchInput searchQuery={this.state.searchQuery} onSearchChange={this.onSearchChangeHandler} />
+          <h2>Catatan Aktif</h2>
           <NoteList 
             notes={this.state.notes.filter(note => !note.archived && note.title.toLowerCase().includes(this.state.searchQuery.toLowerCase()))} 
             onDelete={this.onDeleteHandler} 
